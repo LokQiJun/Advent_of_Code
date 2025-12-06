@@ -68,6 +68,7 @@ long checkRange(vpll inputs, vector<long> ids) {
   return count;
 }
 
+/*
 long countRange(vpll inputs) {
   long count = 0;
   long index = 0;
@@ -81,4 +82,30 @@ long countRange(vpll inputs) {
     
   return (long) rangeEle.size();
   }
+}
+/*/
+
+long countRange(vpll inputs) {
+    long total = 0;
+    long curL = inputs[0].first;
+    long curR = inputs[0].second;
+
+    for (int i = 1; i < inputs.size(); i++) {
+        long L = inputs[i].first;
+        long R = inputs[i].second;
+
+        if (L > curR + 1) {
+            // gap → finalize previous segment
+            total += (curR - curL + 1);
+            curL = L;
+            curR = R;
+        } else {
+            // overlap / touching → merge
+            curR = max(curR, R);
+        }
+    }
+
+    // final merged range
+    total += (curR - curL + 1);
+    return total;
 }
